@@ -1,6 +1,5 @@
 package day3;
 
-import day2.Day2;
 import org.junit.Assert;
 import org.junit.Test;
 
