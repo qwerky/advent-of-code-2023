@@ -1,6 +1,8 @@
 package aoc;
 
+import java.math.BigInteger;
 import java.text.ParseException;
+import java.util.List;
 
 public class Util {
 
@@ -38,5 +40,18 @@ public class Util {
             }
         }
         throw new NumberFormatException("Can't parse " + s);
+    }
+
+    public static BigInteger lcm(List<BigInteger> numbers) {
+        BigInteger lcm = numbers.get(0);
+        for (BigInteger number : numbers) {
+             lcm = lcm(lcm, number);
+        }
+        return lcm;
+    }
+
+    public static BigInteger lcm(BigInteger a, BigInteger b) {
+        BigInteger gcd = a.gcd(b);
+        return a.multiply(b).abs().divide(gcd);
     }
 }
