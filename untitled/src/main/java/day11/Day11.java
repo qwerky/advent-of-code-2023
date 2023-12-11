@@ -14,7 +14,6 @@ public class Day11 {
 
     public static void main(String[] args) {
 
-        // Part 1
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(fileName)))) {
             String line;
 
@@ -23,9 +22,15 @@ public class Day11 {
                 rows.add(line);
             }
             expand(rows);
-            int pairDistances = getPairDistances(rows);
-            System.out.println("Pair distances is " + pairDistances);
 
+            // Part 1
+            long pairDistances = getPairDistances(rows, 2);
+            System.out.println("Pair distances for 1 is " + pairDistances);
+
+            // Part 1
+            pairDistances = getPairDistances(rows, 1000000);
+            System.out.println("Pair distances for 1 million is " + pairDistances);
+            // 1115744135 too low
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -36,12 +41,10 @@ public class Day11 {
 
     public static void expand(List<String> rows) {
         int width = rows.get(0).length();
-        String emptyRow = ".".repeat(width);
-        ListIterator<String> iterator = rows.listIterator();
-        while (iterator.hasNext()) {
-            String row = iterator.next();
-            if (!row.contains("#")) {
-                iterator.add(emptyRow);
+        String emptyRow = "x".repeat(width);
+        for (int row = 0; row<rows.size(); row++) {
+            if (!rows.get(row).contains("#")) {
+                rows.set(row, emptyRow);
             }
         }
 
@@ -57,14 +60,14 @@ public class Day11 {
             if (isEmpty) {
                 for (int row = 0; row<height; row++) {
                     String old = rows.get(row);
-                    String newRow = old.substring(0, col) + "." + old.substring(col);
+                    String newRow = old.substring(0, col) + "x" + old.substring(col+1);
                     rows.set(row, newRow);
                 }
             }
         }
     }
 
-    public static int getPairDistances(List<String> rows) {
+    public static long getPairDistances(List<String> rows, int separation) {
         // Build a list of all the galaxy locations
         List<Point> locs = new ArrayList<>();
         for (int row = 0; row<rows.size(); row++) {
@@ -75,16 +78,41 @@ public class Day11 {
             }
         }
         System.out.println("There are " + locs.size() + " galaxies");
-        int total = 0;
+        long total = 0;
         for (int i=0; i<locs.size(); i++) {
             for (int j=i+1; j<locs.size(); j++) {
                 Point a = locs.get(i);
                 Point b = locs.get(j);
-                int dist = Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
-                total += dist;
+                total += getPairDistance(a, b, rows, separation);
             }
         }
         return total;
+    }
+
+    public static long getPairDistance(Point a, Point b, List<String> rows, int separation) {
+        long h = 0;
+        int x = a.x;
+        while (x != b.x) {
+            x += Integer.signum(b.x - a.x);
+            char c = rows.get(a.y).charAt(x);
+            if (c == 'x')
+                h += separation;
+            else
+                h ++;
+        }
+
+        long v = 0;
+        int y = a.y;
+        while (y != b.y) {
+            y += Integer.signum(b.y - a.y);
+            char c = rows.get(y).charAt(a.x);
+            if (c == 'x')
+                v += separation;
+            else
+                v ++;
+        }
+
+        return h + v;
     }
 
 }
