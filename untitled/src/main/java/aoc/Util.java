@@ -1,10 +1,26 @@
 package aoc;
 
 import java.math.BigInteger;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Util {
+
+    public static Path path(String filename) throws URISyntaxException {
+        return Path.of(ClassLoader.getSystemResource(filename).toURI());
+    }
+
+    public static String[] fillArray(String member, int size) {
+        String[] array = new String[size];
+        Arrays.fill(array, member);
+        return array;
+    }
 
     public static String reverse(final String string) {
         char[] chars = string.toCharArray();
