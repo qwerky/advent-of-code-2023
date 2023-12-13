@@ -22,6 +22,8 @@ public class Day13Test {
         Image image = new Image(lines);
 
         Assert.assertEquals("Vertical", 5, image.getScore());
+        image.smudge = true;
+        Assert.assertEquals("Smudge now horizontal", 300, image.getScore());
     }
 
     @Test
@@ -38,5 +40,8 @@ public class Day13Test {
         Image image = new Image(lines);
 
         Assert.assertEquals("Horizontal", 400, image.getScore());
+        image.smudge = true;
+        Assert.assertEquals("Smudge still horizontal", 100, image.getScore());
     }
+
 }

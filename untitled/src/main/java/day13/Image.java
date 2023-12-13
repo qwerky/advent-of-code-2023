@@ -7,6 +7,8 @@ import java.util.List;
 public class Image {
 
     String[] data;
+    boolean smudge;
+
     public Image(List<String> lines) {
         data = new String[lines.size()];
         for (int i=0; i<lines.size(); i++) {
@@ -73,12 +75,28 @@ public class Image {
 
     private boolean isSymmetry(List<String> a, List<String> b) {
         int min = Math.min(a.size(), b.size());
-        for (int i=0; i<min; i++) {
 
-            if (!a.get(i).equals(b.get(i))) {
-                return false;
+        int wrong = 0;
+        for (int i=0; i<min; i++) {
+            wrong += getWrongCharCount(a.get(i), b.get(i));
+        }
+        if (smudge) {
+            return wrong == 1;
+        } else {
+            return wrong == 0;
+        }
+    }
+
+    private int getWrongCharCount(String a, String b) {
+        int wrong = 0;
+        for (int pos=0; pos<a.length(); pos++) {
+            if (a.charAt(pos) != b.charAt(pos)) {
+                wrong++;
+
+                // If we get above the acceptable level of smudge we can probably
+                // optimise by returning early; no need to check more.
             }
         }
-        return true;
+        return wrong;
     }
 }
