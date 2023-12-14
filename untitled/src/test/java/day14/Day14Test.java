@@ -24,9 +24,12 @@ public class Day14Test {
         lines.add("#OO..#....");
 
         Platform platform = new Platform(lines);
-        platform.tilt();;
+        platform.tiltNorth();
 
+        Assert.assertEquals("Row 1", "OOOO.#.O..", new String(platform.data[0]));
         Assert.assertEquals("Load", 136, platform.getLoad());
+
+        Assert.assertEquals("Load", 64, platform.spin(1000000000));
 
     }
 
