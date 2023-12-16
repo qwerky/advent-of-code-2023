@@ -24,7 +24,7 @@ public class Day16Test {
         lines.add("..//.|....");
 
         Table table = new Table(lines);
-        table.energise();
+        table.energise(0, 0, Table.R);
         table.printTiles();
         table.printPath();
 

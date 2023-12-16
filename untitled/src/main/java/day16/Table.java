@@ -4,10 +4,10 @@ import java.util.List;
 
 public class Table {
 
-    int R = 1;
-    int L = 2;
-    int U = 4;
-    int D = 8;
+    static int R = 1;
+    static int L = 2;
+    static int U = 4;
+    static int D = 8;
 
     char[][] grid;
     int [][] path;
@@ -26,11 +26,15 @@ public class Table {
         }
     }
 
-    public void energise() {
-        energise(0, 0, R);
+    public void reset() {
+        path = new int[height][];
+        for (int i=0; i<height; i++) {
+            path[i] = new int[width];
+        }
     }
 
-    private void energise(int x, int y, int d) {
+
+    public void energise(int x, int y, int d) {
 
         // If we've been this way before, we don't need to carry on
         if ((path[y][x] & d) == d) {
